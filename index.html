@@ -25,7 +25,7 @@
 </head>
 <body>
 
-  <h1>Multiple Choice Quiz</h1>
+  <h1>Which school of thought do you belong to?</h1>
 
   <form id="quizForm">
     <!-- Repeat for 12 questions -->
@@ -129,64 +129,74 @@
     <button type="button" onclick="submitAnswers()">Submit</button>
   </form>
 
-  <script>
-    function submitAnswers() {
-      const answers = {};
-      for (let i = 1; i <= 12; i++) {
-        const selected = document.querySelector(`input[name="q${i}"]:checked`);
-        answers[`q${i}`] = selected ? selected.value : null;
-      }
-      process(answers);
+  <!-- Add this just after the submit button -->
+<div id="results" style="margin-top: 30px; font-size: 18px; font-weight: bold;"></div>
+
+<script>
+  function submitAnswers() {
+    const answers = {};
+    for (let i = 1; i <= 12; i++) {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      answers[`q${i}`] = selected ? selected.value : null;
     }
-  
-    function process(answers) {
-      // Step 1: Ensure all questions are answered
-      const unanswered = Object.values(answers).some(val => val === null);
-      if (unanswered) {
-        alert("Please answer all questions.");
-        return;
-      }
-  
-      // Step 2: Define the mapping table
-      const categoryMap = {
-        1: { A: 'Ruism', B: 'Legalism', C: 'Mohism', D: 'Daoism' },
-        2: { A: 'Daoism', B: 'Mohism', C: 'Ruism', D: 'Legalism' },
-        3: { A: 'Mohism', B: 'Daoism', C: 'Legalism', D: 'Ruism' },
-        4: { A: 'Legalism', B: 'Ruism', C: 'Daoism', D: 'Mohism' },
-        5: { A: 'Ruism', B: 'Legalism', C: 'Mohism', D: 'Daoism' },
-        6: { A: 'Legalism', B: 'Ruism', C: 'Mohism', D: 'Daoism' },
-        7: { A: 'Legalism', B: 'Ruism', C: 'Daoism', D: 'Mohism' },
-        8: { A: 'Ruism', B: 'Mohism', C: 'Daoism', D: 'Legalism' },
-        9: { A: 'Legalism', B: 'Mohism', C: 'Ruism', D: 'Daoism' },
-        10: { A: 'Mohism', B: 'Ruism', C: 'Daoism', D: 'Legalism' },
-        11: { A: 'Ruism', B: 'Mohism', C: 'Legalism', D: 'Daoism' },
-        12: { A: 'Daoism', B: 'Legalism', C: 'Ruism', D: 'Mohism' },
-      };
-  
-      // Step 3: Initialize scores
-      const scores = {
-        Ruism: 0,
-        Legalism: 0,
-        Mohism: 0,
-        Daoism: 0
-      };
-  
-      // Step 4: Count category selections
-      for (let i = 1; i <= 12; i++) {
-        const selectedAnswer = answers[`q${i}`];
-        const category = categoryMap[i][selectedAnswer];
-        scores[category]++;
-      }
-  
-      // Step 5: Show result
-      alert(
-        `Your Scores:\n` +
-        `Ruism: ${scores.Ruism}\n` +
-        `Legalism: ${scores.Legalism}\n` +
-        `Mohism: ${scores.Mohism}\n` +
-        `Daoism: ${scores.Daoism}`
-      );
+    process(answers);
+  }
+
+  function process(answers) {
+    const resultDiv = document.getElementById('results');
+    
+    // Clear previous result
+    resultDiv.innerHTML = '';
+
+    // Step 1: Ensure all questions are answered
+    const unanswered = Object.values(answers).some(val => val === null);
+    if (unanswered) {
+      resultDiv.innerHTML = `<span style="color: red;">Please answer all questions.</span>`;
+      return;
     }
-  </script>
+
+    // Step 2: Define the mapping table
+    const categoryMap = {
+      1: { A: 'Ruism', B: 'Legalism', C: 'Mohism', D: 'Daoism' },
+      2: { A: 'Daoism', B: 'Mohism', C: 'Ruism', D: 'Legalism' },
+      3: { A: 'Mohism', B: 'Daoism', C: 'Legalism', D: 'Ruism' },
+      4: { A: 'Legalism', B: 'Ruism', C: 'Daoism', D: 'Mohism' },
+      5: { A: 'Ruism', B: 'Legalism', C: 'Mohism', D: 'Daoism' },
+      6: { A: 'Legalism', B: 'Ruism', C: 'Mohism', D: 'Daoism' },
+      7: { A: 'Legalism', B: 'Ruism', C: 'Daoism', D: 'Mohism' },
+      8: { A: 'Ruism', B: 'Mohism', C: 'Daoism', D: 'Legalism' },
+      9: { A: 'Legalism', B: 'Mohism', C: 'Ruism', D: 'Daoism' },
+      10: { A: 'Mohism', B: 'Ruism', C: 'Daoism', D: 'Legalism' },
+      11: { A: 'Ruism', B: 'Mohism', C: 'Legalism', D: 'Daoism' },
+      12: { A: 'Daoism', B: 'Legalism', C: 'Ruism', D: 'Mohism' },
+    };
+
+    // Step 3: Initialize scores
+    const scores = {
+      Ruism: 0,
+      Legalism: 0,
+      Mohism: 0,
+      Daoism: 0
+    };
+
+    // Step 4: Count category selections
+    for (let i = 1; i <= 12; i++) {
+      const selectedAnswer = answers[`q${i}`];
+      const category = categoryMap[i][selectedAnswer];
+      scores[category]++;
+    }
+
+    // Step 5: Show result on the page
+    resultDiv.innerHTML =
+      `<div>Your Scores:</div>
+      <ul>
+        <li>Ruism: ${scores.Ruism}</li>
+        <li>Legalism: ${scores.Legalism}</li>
+        <li>Mohism: ${scores.Mohism}</li>
+        <li>Daoism: ${scores.Daoism}</li>
+      </ul>`;
+  }
+</script>
+
 </body>
 </html>
