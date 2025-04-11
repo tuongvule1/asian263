@@ -142,6 +142,13 @@
     process(answers);
   }
 
+  const flavorTexts = {
+    Ruism: "You are most likely a Ruist. You value virtue, harmony, and self-cultivation. You believe a well-ordered society begins with good personal character.",
+    Legalism: "You are most likely a Legalist. You prioritize order, structure, and results. You believe that rules and consequences are key to a functioning society.",
+    Mohism: "You are most likely a Mohist. You care deeply about fairness and helping others. You believe love and impartial care are the best guides for action.",
+    Daoism: "You are most likely a Daoist. You go with the flow, embracing simplicity, spontaneity, and natural balance. You trust in the rhythms of life rather than rigid plans."
+  };
+  
   function process(answers) {
     const resultDiv = document.getElementById('results');
     resultDiv.innerHTML = '';
@@ -191,9 +198,17 @@
     const maxScore = Math.max(...Object.values(scores));
     const topCategories = Object.keys(scores).filter(cat => scores[cat] === maxScore);
 
-    const personalityLine = topCategories.length === 1
-      ? `You are most likely a <strong>${personalityLabels[topCategories[0]]}</strong>.`
-      : `You are most likely a mix of: <strong>${topCategories.map(c => personalityLabels[c]).join(', ')}</strong>.`;
+    let personalityLine = '';
+    let flavorText = '';
+    
+    if (topCategories.length === 1) {
+      const top = topCategories[0];
+      personalityLine = `You are most likely a <strong>${personalityLabels[top]}</strong>.`;
+      flavorText = `<p>${flavorTexts[top]}</p>`;
+    } else {
+      personalityLine = `You are most likely a mix of: <strong>${topCategories.map(c => personalityLabels[c]).join(', ')}</strong>.`;
+      flavorText = topCategories.map(cat => `<p>${flavorTexts[cat]}</p>`).join('');
+    }
 
     const scoreBreakdown = `
       <ul>
@@ -206,6 +221,7 @@
 
     resultDiv.innerHTML = `
       <div style="margin-bottom: 15px;">${personalityLine}</div>
+      ${flavorText}
       <div>Your Scores:</div>
       ${scoreBreakdown}
     `;
