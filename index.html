@@ -143,10 +143,10 @@
   }
 
   const flavorTexts = {
-    Ruism: "You are most likely a Ruist. You value virtue, harmony, and self-cultivation. You believe a well-ordered society begins with good personal character.",
-    Legalism: "You are most likely a Legalist. You prioritize order, structure, and results. You believe that rules and consequences are key to a functioning society.",
-    Mohism: "You are most likely a Mohist. You care deeply about fairness and helping others. You believe love and impartial care are the best guides for action.",
-    Daoism: "You are most likely a Daoist. You go with the flow, embracing simplicity, spontaneity, and natural balance. You trust in the rhythms of life rather than rigid plans."
+    Ruism: "As a Ruist, you value virtue, harmony, and self-cultivation. You believe a well-ordered society begins with good personal character.",
+    Legalism: "As a Legalist, you prioritize order, structure, and results. You believe that rules and consequences are key to a functioning society.",
+    Mohism: "As a Mohist, you care deeply about fairness and helping others. You believe love and impartial care are the best guides for action.",
+    Daoism: "As a Daoist, you go with the flow, embracing simplicity, spontaneity, and natural balance. You trust in the rhythms of life rather than rigid plans."
   };
   
   function process(answers) {
@@ -210,19 +210,20 @@
       flavorText = topCategories.map(cat => `<p>${flavorTexts[cat]}</p>`).join('');
     }
 
+    const total = 12; // total number of questions
     const scoreBreakdown = `
       <ul>
-        <li>Ruism: ${scores.Ruism}</li>
-        <li>Legalism: ${scores.Legalism}</li>
-        <li>Mohism: ${scores.Mohism}</li>
-        <li>Daoism: ${scores.Daoism}</li>
+        <li>Ruism: ${((scores.Ruism / total) * 100).toFixed(1)}%</li>
+        <li>Legalism: ${((scores.Legalism / total) * 100).toFixed(1)}%</li>
+        <li>Mohism: ${((scores.Mohism / total) * 100).toFixed(1)}%</li>
+        <li>Daoism: ${((scores.Daoism / total) * 100).toFixed(1)}%</li>
       </ul>
     `;
 
     resultDiv.innerHTML = `
       <div style="margin-bottom: 15px;">${personalityLine}</div>
       ${flavorText}
-      <div>Your Scores:</div>
+      <div>Your Philosophical Profile:</div>
       ${scoreBreakdown}
     `;
   }
