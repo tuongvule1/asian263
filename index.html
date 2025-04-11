@@ -180,14 +180,20 @@
       scores[category]++;
     }
 
-    // Find the highest score(s)
+    // Mapping for personality labels
+    const personalityLabels = {
+      Ruism: 'Ruist',
+      Legalism: 'Legalist',
+      Mohism: 'Mohist',
+      Daoism: 'Daoist'
+    };
+
     const maxScore = Math.max(...Object.values(scores));
     const topCategories = Object.keys(scores).filter(cat => scores[cat] === maxScore);
 
-    // Compose result message
     const personalityLine = topCategories.length === 1
-      ? `You are most likely a <strong>${topCategories[0]}</strong>.`
-      : `You are most likely a mix of: <strong>${topCategories.join(', ')}</strong>.`;
+      ? `You are most likely a <strong>${personalityLabels[topCategories[0]]}</strong>.`
+      : `You are most likely a mix of: <strong>${topCategories.map(c => personalityLabels[c]).join(', ')}</strong>.`;
 
     const scoreBreakdown = `
       <ul>
@@ -205,6 +211,7 @@
     `;
   }
 </script>
+
 
 
 
